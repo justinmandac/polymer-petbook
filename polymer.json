@@ -1,0 +1,21 @@
+{
+  "entrypoint": "index.html",
+  "shell": "src/pb-app.html",
+  "fragments": [],
+  "srcs": [
+    "src/**/*",
+    "bower.json"
+  ],
+  "extraDependencies": [
+    "bower_components/webcomponentsjs/*",
+    "bower_components/reset-css/*"
+  ],
+  "lint": {
+    "rules": ["polymer-2-hybrid"]
+  },
+  "builds": [
+    {
+      "preset": "es5-bundled"
+    }
+  ] 
+}

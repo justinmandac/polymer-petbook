@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>&lt;pb-app&gt;</title>
+
+    <script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../bower_components/web-component-tester/browser.js"></script>
+
+    <link rel="import" href="../src/pb-app.html">
+  </head>
+  <body>
+    <test-fixture id="main">
+      <pb-app></pb-app>
+    </test-fixture>
+    <script>
+      suite('<pb-app>', function() {
+        var component;
+
+        setup(function() {
+          component = fixture('main');
+        });
+
+        test('It should be initialized', function() {
+          assert.instanceOf(component, Polymer.Element);
+        });
+      });
+    </script>
+  </body>
+</html>

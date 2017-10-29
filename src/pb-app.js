@@ -1,4 +1,13 @@
 (() => {
+  'use-strict';
+
+  /** @record */
+  class AppRoute {
+    constructor() {
+
+    }
+  }
+
   class PetbookApp extends Polymer.Element {
 
     static get is() { return 'pb-app'; }
@@ -9,6 +18,21 @@
           type: Boolean,
           value: false,
           reflectToAttribute: true,
+        },
+
+        route: {
+          type: Object,
+          value: () => ({}),
+        },
+
+        routeData: {
+          type: Object,
+          value: () => ({}),
+        },
+
+        subroute: {
+          type: Object,
+          value: () => ({}),
         },
 
         unresolved: {
@@ -24,6 +48,12 @@
       };
     }
 
+    static get observers() {
+      return [
+        '_onRouteChanged(routeData)'
+      ];
+    }
+
     ready() {
       super.ready();
       this.unresolved = false;
@@ -31,6 +61,13 @@
 
     _handleMenuClick() {
       this.drawerOpened = !this.drawerOpened;
+    }
+
+    _onRouteChanged(routeData) {
+      // Make sure that route-handling only executes once.
+      Polymer.Base.debounce('routeData-debouncer', () => {
+        console.log(routeData, this.subroute);
+      }, 100)
     }
   }
 

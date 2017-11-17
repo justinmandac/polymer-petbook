@@ -1,0 +1,17 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+<dom-module id="pb-home-page">
+  <template>
+    Home
+  </template>
+  <script>
+    (() => {
+      const Element = Polymer.Element;
+      class PbHomePage extends Element {
+        static get is() { return 'pb-home-page'; }
+      }
+
+      window.customElements.define(PbHomePage.is, PbHomePage);
+    })();
+  </script>
+</dom-module>

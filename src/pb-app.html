@@ -5,7 +5,7 @@
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/paper-styles/typography.html">
-<link rel="import" href="./pb-pet-profile.html">
+<link rel="import" href="pb-pet-profile.html">
 <!--
   `<pb-app>` entry point for the application.
 -->
@@ -13,6 +13,7 @@
   <template>
     <style>
       :host {
+        display: block;
         font-family: 'Roboto';
       }
       /** Hide the menu button if the full-width layout is being displayed */
@@ -21,27 +22,89 @@
       }
     </style>
 
-    <iron-media-query query="max-width: 767px" query-matches="{{_smallScreen}}"></iron-media-query>
-
     <app-location route="{{route}}" use-hash-as-path></app-location>
     <app-route route="{{route}}" pattern="/:page" data="{{routeData}}" tail="{{subroute}}"></app-route>
 
-    <app-drawer-layout>
-      <app-drawer id="drawer" slot="drawer" opened="{{drawerOpened}}" swipe-open tab-index="0"></app-drawer>
+
+    <app-drawer-layout fullbleed>
+      <app-drawer id="drawer" slot="drawer" opened="{{drawerOpened}}" swipe-open tab-index="0">
+        Drawer!
+      </app-drawer>
       <app-header-layout>
         <app-header slot="header" reveals>
             <app-toolbar>
-              <paper-icon-button id="menuTrigger" icon="menu" on-tap="_handleMenuClick">
-              </paper-icon-button>
+              <paper-icon-button id="menuTrigger" icon="menu" drawer-toggle>
+                </paper-icon-button>
               <div main-title>Petbook</div>
             </app-toolbar>
           </app-header>
-        <div class="content">
           <pb-pet-profile></pb-pet-profile>
-        </div>
       </app-header-layout>
     </app-drawer-layout>
-    <!-- app content here -->
   </template>
-  <script src="pb-app.js"></script>
+  <script>
+  (() => {
+    class PetbookApp extends Polymer.Element {
+
+      static get is() { return 'pb-app'; }
+
+      static get properties() {
+        return {
+          drawerOpened: {
+            type: Boolean,
+            value: false,
+            reflectToAttribute: true,
+          },
+
+          route: {
+            type: Object,
+            value: () => ({}),
+          },
+
+          routeData: {
+            type: Object,
+            value: () => ({}),
+          },
+
+          subroute: {
+            type: Object,
+            value: () => ({}),
+          },
+
+          unresolved: {
+            type: Boolean,
+            value: true,
+            reflectToAttribute: true,
+          },
+
+          _smallScreen: {
+            type: Boolean,
+            value: true,
+          },
+        };
+      }
+
+      static get observers() {
+        return [
+          '_onRouteChanged(routeData)'
+        ];
+      }
+
+      connectedCallback() {
+        super.connectedCallback();
+        console.log('Ready!');
+        this.unresolved = false;
+      }
+
+      _onRouteChanged(routeData) {
+        // Make sure that route-handling only executes once.
+        Polymer.Base.debounce('routeData-debouncer', () => {
+          console.log(routeData, this.subroute);
+        }, 100)
+      }
+    }
+
+    window.customElements.define(PetbookApp.is, PetbookApp);
+  })();
+  </script>
 </dom-module>

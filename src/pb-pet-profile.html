@@ -2,9 +2,26 @@
 
 <dom-module id="pb-pet-profile">
   <template>
-    <header>
-      Pet Profile
-    </header>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+     Pet Profile
   </template>
-  <script src="pb-pet-profile.js"></script>
+  <script>
+      window.customElements.define('pb-pet-profile',
+        class extends Polymer.Element {
+          static get is() { return 'pb-pet-profile' }
+          static get properties() {
+            return {
+              active: {
+                type: Boolean,
+                value: false,
+                reflectToAttribute: true,
+              },
+            };
+          }
+      });
+  </script>
 </dom-module>

@@ -10,18 +10,20 @@
      Pet Profile
   </template>
   <script>
-      window.customElements.define('pb-pet-profile',
-        class extends Polymer.Element {
-          static get is() { return 'pb-pet-profile' }
-          static get properties() {
-            return {
-              active: {
-                type: Boolean,
-                value: false,
-                reflectToAttribute: true,
-              },
-            };
-          }
-      });
+  (() => {
+    class PbPetProfile extends Polymer.Element {
+      static get is() { return 'pb-pet-profile' }
+      static get properties() {
+        return {
+          active: {
+            type: Boolean,
+            value: false,
+            reflectToAttribute: true,
+          },
+        };
+      }
+    }
+    window.customElements.define(PbPetProfile.is, PbPetProfile);
+  })();
   </script>
 </dom-module>

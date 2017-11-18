@@ -1,32 +1,34 @@
 <script>
-  window.petBook = window.petBook || {};
-  window.petBook.PageMixin = (superclass) => class extends superclass {
-    static get properties() {
-      return {
-        active: {
-          type: Boolean,
-          value: false,
-          reflectToAttribute: true,
-        },
+  ((root) => {
+    root.petBook = root.petBook || {};
+    root.petBook.PageMixin = (superclass) => class extends superclass {
+      static get properties() {
+        return {
+          active: {
+            type: Boolean,
+            value: false,
+            reflectToAttribute: true,
+          },
 
-        route: {
-          type: Object,
-          value: () => ({}),
-        },
+          route: {
+            type: Object,
+            value: () => ({}),
+          },
 
-        routeName: {
-          type: String,
-          value: '',
-          reflectToAttribute: true,
-        },
+          routeName: {
+            type: String,
+            value: '',
+            reflectToAttribute: true,
+          },
 
-        routeData: {
-          type: Object,
-          value: () => ({}),
-        },
-      };
-    }
+          routeData: {
+            type: Object,
+            value: () => ({}),
+          },
+        };
+      }
 
-    _onActiveChanged(event) { }
-  };
+      _onActiveChanged(event) { }
+    };
+  })(window);
 </script>

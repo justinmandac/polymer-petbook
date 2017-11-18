@@ -1,4 +1,6 @@
+<link rel="import" href="../bower_components/app-route/app-route.html">
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="pb-page-mixin.html">
 
 <dom-module id="pb-pet-profile">
   <template>
@@ -7,23 +9,26 @@
         display: block;
       }
     </style>
+    <app-route
+      id="route"
+      active="{{active}}"
+      route="{{route}}"
+      pattern="/{{routeName}}"
+      on-active-changed="_onActiveChanged">
+    </app-route>
      Pet Profile
   </template>
   <script>
-  (() => {
-    class PbPetProfile extends Polymer.Element {
+  ((PageMixin) => {
+    const Element = PageMixin(Polymer.Element);
+    class PbPetProfile extends Element {
       static get is() { return 'pb-pet-profile' }
-      static get properties() {
-        return {
-          active: {
-            type: Boolean,
-            value: false,
-            reflectToAttribute: true,
-          },
-        };
+
+      _onActiveChanged(event) {
+        console.log(`${this.routeName} active? ${event.target.active}`);
       }
     }
     window.customElements.define(PbPetProfile.is, PbPetProfile);
-  })();
+  })(window.petBook.PageMixin);
   </script>
 </dom-module>

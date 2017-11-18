@@ -1,14 +1,31 @@
+<link rel="import" href="../bower_components/app-route/app-route.html">
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="pb-page-mixin.html">
 
 <dom-module id="pb-home-page">
   <template>
+    <app-route
+      active="{{active}}"
+      route="{{route}}" pattern="/[[routeName]]"
+      on-active-changed="_onActiveChanged">
+    </app-route>
     Home
+    <h4>Upcoming</h4>
+    <ul class="upcoming-list">
+      <li><paper-item>Lucky</paper-item></li>
+      <li><paper-item>Layla</paper-item></li>
+    </ul>
   </template>
   <script>
     (() => {
-      const Element = Polymer.Element;
+      const Element = window.petBook.PageMixin(Polymer.Element);
       class PbHomePage extends Element {
         static get is() { return 'pb-home-page'; }
+
+        _onActiveChanged(event) {
+          console.log(`${this.routeName} active? ${event.target.active}`);
+        }
       }
 
       window.customElements.define(PbHomePage.is, PbHomePage);

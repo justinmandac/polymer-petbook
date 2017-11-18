@@ -3,7 +3,10 @@
 <link rel="import" href="../bower_components/app-route/app-location.html">
 <link rel="import" href="../bower_components/app-route/app-route.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../bower_components/paper-styles/typography.html">
 <link rel="import" href="pb-home-page.html">
 <link rel="import" href="pb-pet-profile.html">
@@ -24,23 +27,32 @@
     </style>
 
     <app-location route="{{route}}" use-hash-as-path></app-location>
-    <app-route route="{{route}}" pattern="/:page" data="{{routeData}}" tail="{{subroute}}"></app-route>
-
+    <app-route route="{{route}}" pattern="/:page" data="{{routeData}}"></app-route>
 
     <app-drawer-layout fullbleed>
       <app-drawer id="drawer" slot="drawer" opened="{{drawerOpened}}" swipe-open tab-index="0">
-        Drawer!
+        <app-toolbar>
+          <div main-title>
+            Petbook
+          </div>
+        </app-toolbar>
+        <paper-listbox>
+          <paper-item>Events</paper-item>
+          <paper-item>My Pets</paper-item>
+          <paper-item>Settings</paper-item>
+        </paper-listbox>
       </app-drawer>
       <app-header-layout>
         <app-header slot="header" reveals>
             <app-toolbar>
               <paper-icon-button id="menuTrigger" icon="menu" drawer-toggle>
-                </paper-icon-button>
-              <div main-title>Petbook</div>
+              </paper-icon-button>
             </app-toolbar>
           </app-header>
-          <pb-home-page></pb-home-page>
-          <pb-pet-profile></pb-pet-profile>
+          <iron-pages selected="[[currentPage]]" attr-for-selected="route-name">
+            <pb-home-page route="{{route}}" route-name=""></pb-home-page>
+            <pb-pet-profile route-name="profile" route="{{route}}"></pb-pet-profile>
+          </iron-pages>
       </app-header-layout>
     </app-drawer-layout>
   </template>
@@ -52,6 +64,11 @@
 
       static get properties() {
         return {
+          currentPage: {
+            type: String,
+            value: '',
+          },
+
           drawerOpened: {
             type: Boolean,
             value: false,
@@ -64,11 +81,6 @@
           },
 
           routeData: {
-            type: Object,
-            value: () => ({}),
-          },
-
-          subroute: {
             type: Object,
             value: () => ({}),
           },
@@ -88,20 +100,20 @@
 
       static get observers() {
         return [
-          '_onRouteChanged(routeData)'
+          '_onRouteChanged(route)'
         ];
       }
 
       connectedCallback() {
         super.connectedCallback();
-        console.log('Ready!');
         this.unresolved = false;
       }
 
-      _onRouteChanged(routeData) {
+      _onRouteChanged(route) {
         // Make sure that route-handling only executes once.
-        Polymer.Base.debounce('routeData-debouncer', () => {
-          console.log(routeData, this.subroute);
+        Polymer.Base.debounce('route-debouncer', () => {
+          this.currentPage = this.routeData.page;
+          console.log(route, this.routeData);
         }, 100)
       }
     }
